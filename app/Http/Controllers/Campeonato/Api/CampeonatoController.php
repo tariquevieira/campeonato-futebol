@@ -19,6 +19,7 @@ class CampeonatoController extends Controller
      */
     public function index()
     {
+
         try {
             $campeonatos = $this->repository->listaCampeonatos();
             return response()->json($campeonatos, 200);
@@ -37,7 +38,7 @@ class CampeonatoController extends Controller
     public function store(StoreAndUpdateCampeonatoRequest $request)
     {
         try {
-            $campeonato = $this->repository->criarCampeonato($request->nome);
+            $campeonato = $this->repository->criaCampeonato($request->nome);
             return response()->json($campeonato, 201);
         } catch (\Exception $e) {
             $mensagem = ["mensagem" => "Não foi possivel recuperar os campenatos"];
@@ -51,9 +52,16 @@ class CampeonatoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Int $id)
     {
-        //
+        try {
+            $campeonato = $this->repository->buscaCampeonatoPorId($id);
+            return response()->json($campeonato, 200);
+        } catch (\Exception $e) {
+            $mensagemException = $e->getMessage();
+            $mensagem = ["mensagem" => $mensagemException];
+            return response()->json($mensagem, 500);
+        }
     }
 
     /**
@@ -63,9 +71,20 @@ class CampeonatoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreAndUpdateCampeonatoRequest $request, Int $id)
     {
-        //
+        try {
+            $registroAtualziado = $this->repository->atualizaCampeonato($request->nome, $id);
+            if ($registroAtualziado) {
+                return response()->json("", 204);
+            }
+
+            throw new \Exception("Não foi possivel atualizar o registro");
+        } catch (\Exception $e) {
+            $mensagemException = $e->getMessage();
+            $mensagem = ["mensagem" => $mensagemException];
+            return response()->json($mensagem, 500);
+        }
     }
 
     /**
@@ -74,8 +93,19 @@ class CampeonatoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Int $id)
     {
-        //
+        try {
+            $registroDeletado = $this->repository->deletaCampeonato($id);
+            if ($registroDeletado) {
+                return response()->json("", 204);
+            }
+
+            throw new \Exception("Não foi possivel atualizar o registro");
+        } catch (\Exception $e) {
+            $mensagemException = $e->getMessage();
+            $mensagem = ["mensagem" => $mensagemException];
+            return response()->json($mensagem, 500);
+        }
     }
 }

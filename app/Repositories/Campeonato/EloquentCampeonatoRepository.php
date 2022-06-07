@@ -3,6 +3,7 @@
 namespace App\Repositories\Campeonato;
 
 use App\Models\Campeonato;
+use Illuminate\Database\QueryException;
 
 class EloquentCampeonatoRepository implements CampeonatoRepository
 {
@@ -17,6 +18,7 @@ class EloquentCampeonatoRepository implements CampeonatoRepository
    */
   public function listaCampeonatos(): array
   {
+
     try {
       $campeonatos = $this->campeonato->all()->toArray();
       return $campeonatos;
@@ -25,11 +27,63 @@ class EloquentCampeonatoRepository implements CampeonatoRepository
     }
   }
 
-  public function criarCampeonato(String $nome): Campeonato
+  /**
+   * criaCampeonato
+   *
+   * @param String $nome
+   * @return Campeonato
+   */
+  public function criaCampeonato(String $nome): Campeonato
   {
     try {
       $campeonato = $this->campeonato->create(["nome" => $nome]);
       return $campeonato;
+    } catch (\Exception $e) {
+      throw new \Exception($e->getMessage);
+    }
+  }
+
+  /**
+   * buscaCampeonatoPorId
+   *
+   * @param Int $id
+   * @return Campeonato
+   */
+  public function buscaCampeonatoPorId(Int $id): Campeonato
+  {
+    try {
+      $campeonato = $this->campeonato->find($id);
+      return $campeonato;
+    } catch (\Exception $e) {
+      throw new \Exception($e->getMessage);
+    }
+  }
+
+  /**
+   * atualizaCampeonato
+   *
+   * @param String $nome
+   * @param Int $id
+   * @return boolean
+   */
+  public function atualizaCampeonato(String $nome, Int $id): bool
+  {
+    try {
+      $campeonato = $this->campeonato->find($id);
+      $campeonato->nome = $nome;
+      $campeonato->save();
+      return true;
+    } catch (\Exception $e) {
+      throw new \Exception($e->getMessage);
+    }
+  }
+
+  public function deletaCampeonato(Int $id): bool
+  {
+    try {
+      $campeonato = $this->campeonato->find($id);
+      $campeonato->delete();
+      return true;
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage);
     }
