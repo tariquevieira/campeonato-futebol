@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Services\Time;
+namespace App\Services\Campeonato;
 
-use App\Repositories\Time\TimeRepository;
+use App\Repositories\Campeonato\CampeonatoRepository;
 
-class TimeService
+class CampeonatoService
 {
-  public function __construct(private TimeRepository $repositorio)
+
+  public function __construct(private CampeonatoRepository $repository)
   {
   }
 
   /**
-   * lista Times
+   * lista Campeonatos
    *
    * @return array
    */
-  public function listaTimes(): array
+  public function listaCampeonatos(): array
   {
     try {
-      return $this->repositorio->listaTimes();
+      return $this->repository->listaCampeonatos();
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage());
     }
@@ -30,28 +31,28 @@ class TimeService
    * @param String $nome
    * @return void
    */
-  public function criaTime(String $nome)
+  public function criaCampeonato(String $nome)
   {
     try {
-      return $this->repositorio->criaTime($nome);
+      return $this->repository->criaCampeonato($nome);
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage());
     }
   }
 
-  public function buscaTimePorId(Int $id)
+  public function buscaCampeonatoPorId(Int $id)
   {
     try {
-      return $this->repositorio->buscaTimePorId($id);
+      return $this->repository->buscaCampeonatoPorId($id);
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage());
     }
   }
 
-  public function atualizaTime(String $nome, Int $id)
+  public function atualizaCampeonato(String $nome, Int $id)
   {
     try {
-      $registroAtualziado = $this->repositorio->atualizaTime($nome, $id);
+      $registroAtualziado = $this->repository->atualizaCampeonato($nome, $id);
       if ($registroAtualziado) {
         return $registroAtualziado;
       }
@@ -61,10 +62,10 @@ class TimeService
     }
   }
 
-  public function deletaTime(Int $id)
+  public function deletaCampeonato(Int $id)
   {
     try {
-      $deletado = $this->repositorio->deletaTime($id);
+      $deletado = $this->repository->deletaCampeonato($id);
       if ($deletado) {
         return $deletado;
       }
@@ -73,5 +74,9 @@ class TimeService
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage());
     }
+  }
+
+  public function existePrimeiraFase()
+  {
   }
 }

@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Campeonato\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAndUpdateCampeonatoRequest;
-use App\Repositories\Campeonato\CampeonatoRepository;
+use App\Services\Campeonato\CampeonatoService;
 use Illuminate\Http\Request;
 
 class CampeonatoApiController extends Controller
 {
-    public function __construct(private CampeonatoRepository $repository)
+
+    public function __construct(private CampeonatoService $servico)
     {
     }
     /**
@@ -20,7 +21,7 @@ class CampeonatoApiController extends Controller
     public function index()
     {
         try {
-            $campeonatos = $this->repository->listaCampeonatos();
+            $campeonatos = $this->servico->listaCampeonatos();
             return response()->json($campeonatos, 200);
         } catch (\Exception $e) {
             $mensagem = ["mensagem" => "Não foi possivel recuperar os campenatos"];
@@ -37,7 +38,7 @@ class CampeonatoApiController extends Controller
     public function store(StoreAndUpdateCampeonatoRequest $request)
     {
         try {
-            $campeonato = $this->repository->criaCampeonato($request->nome);
+            $campeonato = $this->servico->criaCampeonato($request->nome);
             return response()->json($campeonato, 201);
         } catch (\Exception $e) {
             $mensagem = ["mensagem" => "Não foi possivel recuperar os campenatos"];
@@ -54,7 +55,7 @@ class CampeonatoApiController extends Controller
     public function show(Int $id)
     {
         try {
-            $campeonato = $this->repository->buscaCampeonatoPorId($id);
+            $campeonato = $this->servico->buscaCampeonatoPorId($id);
             return response()->json($campeonato, 200);
         } catch (\Exception $e) {
             $mensagemException = $e->getMessage();
@@ -73,7 +74,7 @@ class CampeonatoApiController extends Controller
     public function update(StoreAndUpdateCampeonatoRequest $request, Int $id)
     {
         try {
-            $registroAtualziado = $this->repository->atualizaCampeonato($request->nome, $id);
+            $registroAtualziado = $this->servico->atualizaCampeonato($request->nome, $id);
             if ($registroAtualziado) {
                 return response()->json("", 204);
             }
@@ -95,7 +96,7 @@ class CampeonatoApiController extends Controller
     public function destroy(Int $id)
     {
         try {
-            $registroDeletado = $this->repository->deletaCampeonato($id);
+            $registroDeletado = $this->servico->deletaCampeonato($id);
             if ($registroDeletado) {
                 return response()->json("", 204);
             }

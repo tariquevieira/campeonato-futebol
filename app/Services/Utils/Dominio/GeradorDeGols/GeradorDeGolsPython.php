@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Utils\Dominio;
+namespace App\Services\Utils\Dominio\GeradorDeGols;
 
-class GeradorDeGolsService
+class GeradorDeGolsPython implements GeradorDeGolsService
 {
   private String $caminhoRaiz;
   private String $caminhoScript;
@@ -14,14 +14,14 @@ class GeradorDeGolsService
     $nomeScript = 'teste.py';
     $this->caminhoScript = $this->caminhoRaiz . '/script/' . $nomeScript;
   }
-  public function getGols(): array
+  public function getGolsPortime(): array
   {
     $output = shell_exec("python3 $this->caminhoScript");
     $split = preg_split('/\s/', $output);
 
     return [
-      'golTime1' => $split[0],
-      'golTime2' => $split[1],
+      'time_mandante' => $split[0],
+      'time_visitante' => $split[1],
     ];
   }
 }

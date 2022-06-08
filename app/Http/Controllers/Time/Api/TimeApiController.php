@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Time\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAndUpdateTimeRequest;
 use App\Services\Time\TimeService;
-use App\Services\Utils\Dominio\GeradorDeGolsService;
+
 
 class TimeApiController extends Controller
 {
