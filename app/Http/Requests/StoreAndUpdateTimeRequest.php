@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAndUpdateCampeonatoRequest extends FormRequest
+class StoreAndUpdateTimeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,7 @@ class StoreAndUpdateCampeonatoRequest extends FormRequest
             'nome' => 'required',
         ];
     }
+
     /**
      * Get the error messages for the defined validation rules.
      *

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Campeonato\Api;
+namespace App\Http\Controllers\Time\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAndUpdateCampeonatoRequest;
-use App\Repositories\Campeonato\CampeonatoRepository;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAndUpdateTimeRequest;
+use App\Services\Time\TimeService;
 
-class CampeonatoController extends Controller
+class TimeApiController extends Controller
 {
-    public function __construct(private CampeonatoRepository $repository)
+    public function __construct(private TimeService $service)
     {
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,12 +19,12 @@ class CampeonatoController extends Controller
      */
     public function index()
     {
-
         try {
-            $campeonatos = $this->repository->listaCampeonatos();
+            $campeonatos = $this->service->listaTimes();
             return response()->json($campeonatos, 200);
         } catch (\Exception $e) {
-            $mensagem = ["mensagem" => "Não foi possivel recuperar os campenatos"];
+            $mensagemException = $e->getMessage();
+            $mensagem = ["mensagem" => $mensagemException];
             return response()->json($mensagem, 500);
         }
     }
@@ -32,16 +32,17 @@ class CampeonatoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\StoreAndUpdateCampeonatoRequest;  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAndUpdateCampeonatoRequest $request)
+    public function store(StoreAndUpdateTimeRequest $request)
     {
         try {
-            $campeonato = $this->repository->criaCampeonato($request->nome);
+            $campeonato = $this->service->criaTime($request->nome);
             return response()->json($campeonato, 201);
         } catch (\Exception $e) {
-            $mensagem = ["mensagem" => "Não foi possivel recuperar os campenatos"];
+            $mensagemException = $e->getMessage();
+            $mensagem = ["mensagem" => $mensagemException];
             return response()->json($mensagem, 500);
         }
     }
@@ -55,7 +56,7 @@ class CampeonatoController extends Controller
     public function show(Int $id)
     {
         try {
-            $campeonato = $this->repository->buscaCampeonatoPorId($id);
+            $campeonato = $this->service->buscaTimePorId($id);
             return response()->json($campeonato, 200);
         } catch (\Exception $e) {
             $mensagemException = $e->getMessage();
@@ -71,10 +72,10 @@ class CampeonatoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreAndUpdateCampeonatoRequest $request, Int $id)
+    public function update(StoreAndUpdateTimeRequest $request, Int $id)
     {
         try {
-            $registroAtualziado = $this->repository->atualizaCampeonato($request->nome, $id);
+            $registroAtualziado = $this->service->atualizaTime($request->nome, $id);
             if ($registroAtualziado) {
                 return response()->json("", 204);
             }
@@ -96,7 +97,7 @@ class CampeonatoController extends Controller
     public function destroy(Int $id)
     {
         try {
-            $registroDeletado = $this->repository->deletaCampeonato($id);
+            $registroDeletado = $this->service->deletaTime($id);
             if ($registroDeletado) {
                 return response()->json("", 204);
             }

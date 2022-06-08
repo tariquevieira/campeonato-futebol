@@ -3,7 +3,6 @@
 namespace App\Repositories\Campeonato;
 
 use App\Models\Campeonato;
-use Illuminate\Database\QueryException;
 
 class EloquentCampeonatoRepository implements CampeonatoRepository
 {
