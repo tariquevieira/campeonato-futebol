@@ -76,7 +76,12 @@ class EloquentCampeonatoRepository implements CampeonatoRepository
       throw new \Exception($e->getMessage);
     }
   }
-
+  /**
+   * deletaCampeonato
+   *
+   * @param Int $id
+   * @return boolean
+   */
   public function deletaCampeonato(Int $id): bool
   {
     try {

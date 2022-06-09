@@ -14,7 +14,13 @@ class GeradorDeGolsPython implements GeradorDeGolsService
     $nomeScript = 'teste.py';
     $this->caminhoScript = $this->caminhoRaiz . '/script/' . $nomeScript;
   }
-  public function getGolsPortime(): array
+
+  /**
+   * Retorna nnúmero de gols gerato aleatoriamente através de um script python
+   *
+   * @return array
+   */
+  public function getGolsJogo(): array
   {
     $output = shell_exec("python3 $this->caminhoScript");
     $split = preg_split('/\s/', $output);

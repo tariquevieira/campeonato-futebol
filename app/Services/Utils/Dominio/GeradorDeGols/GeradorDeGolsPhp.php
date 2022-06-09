@@ -4,7 +4,12 @@ namespace App\Services\Utils\Dominio\GeradorDeGols;
 
 class GeradorDeGolsPhp implements GeradorDeGolsService
 {
-  public function getGolsPorTime(): array
+  /**
+   * Retorna nnúmero de gols gerato aleatoriamente
+   *
+   * @return array
+   */
+  public function getGolsJogo(): array
   {
     $minimo = 0;
     $maximo = 8;

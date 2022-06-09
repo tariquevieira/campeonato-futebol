@@ -26,8 +26,7 @@ class TimeService
   }
 
   /**
-   * 
-   *
+   *criaTime
    * @param String $nome
    * @return void
    */
@@ -40,7 +39,14 @@ class TimeService
     }
   }
 
-  public function buscaTimePorId(Int $id)
+
+  /**
+   * buscaTimePorId
+   *
+   * @param Int $id
+   * @return void
+   */
+  public function buscaTimePorId(Int $id): Time
   {
     try {
       return $this->repositorio->buscaTimePorId($id);
@@ -49,12 +55,19 @@ class TimeService
     }
   }
 
-  public function atualizaTime(String $nome, Int $id)
+  /**
+   * atualizaTime
+   *
+   * @param String $nome
+   * @param Int $id
+   * @return boolean
+   */
+  public function atualizaTime(String $nome, Int $id): bool
   {
     try {
-      $registroAtualziado = $this->repositorio->atualizaTime($nome, $id);
-      if ($registroAtualziado) {
-        return $registroAtualziado;
+      $registroAtualzado = $this->repositorio->atualizaTime($nome, $id);
+      if ($registroAtualzado) {
+        return $registroAtualzado;
       }
       throw new \Exception("Não foi possivel atualizar o registro");
     } catch (\Exception $e) {
@@ -62,7 +75,13 @@ class TimeService
     }
   }
 
-  public function deletaTime(Int $id)
+  /**
+   * deletaTime
+   *
+   * @param Int $id
+   * @return boolean
+   */
+  public function deletaTime(Int $id): bool
   {
     try {
       $deletado = $this->repositorio->deletaTime($id);
@@ -76,6 +95,11 @@ class TimeService
     }
   }
 
+  /**
+   * todosTimes
+   *
+   * @return array
+   */
   public static function todosTimes(): array
   {
     try {
