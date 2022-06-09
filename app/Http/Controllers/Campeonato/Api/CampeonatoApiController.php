@@ -108,4 +108,17 @@ class CampeonatoApiController extends Controller
             return response()->json($mensagem, 500);
         }
     }
+
+    public function quartasDeFinal(Int $id)
+    {
+        try {
+
+            $campeonato = $this->servico->quartasDeFinal($id);
+
+            return response()->json($campeonato, 200);
+        } catch (\Exception $e) {
+            $mensagem = ["mensagem" => $e->getMessage()];
+            return response()->json($mensagem, 500);
+        }
+    }
 }

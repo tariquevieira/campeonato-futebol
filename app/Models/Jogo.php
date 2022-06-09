@@ -29,4 +29,23 @@ class Jogo extends Model
   {
     return $this->belongsTo(Time::class, 'time_visitante_id', 'id');
   }
+
+  public function scopeBuscaQuartasFinal($query)
+  {
+    return $query->where('fase', 'q');
+  }
+
+  public function scopeBuscaTerceiroLugar($query)
+  {
+    return $query->where('fase', 't');
+  }
+
+  public function scopeBuscaSemiFinal($query)
+  {
+    return $query->where('fase', 'sf');
+  }
+  public function scopeBuscaFinal($query)
+  {
+    return $query->where('fase', 'sf');
+  }
 }

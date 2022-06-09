@@ -3,12 +3,15 @@
 namespace App\Services\Campeonato;
 
 use App\Repositories\Campeonato\CampeonatoRepository;
+use App\Services\Jogo\JogoService;
 
 class CampeonatoService
 {
 
-  public function __construct(private CampeonatoRepository $repository)
-  {
+  public function __construct(
+    private CampeonatoRepository $repository,
+    private JogoService $jogoService
+  ) {
   }
 
   /**
@@ -76,7 +79,15 @@ class CampeonatoService
     }
   }
 
-  public function existePrimeiraFase()
+  public function quartasDeFinal(Int $idCampeonato): array
   {
+    try {
+      if ($this->jogoService->existeJogosDeQuartasFinal($idCampeonato)) {
+        return $this->jogoService->jogosQuartasDeFinal($idCampeonato);
+      }
+      return  $this->jogoService->criaQuartasDeFinal($idCampeonato);
+    } catch (\Exception $e) {
+      throw new \Exception($e->getMessage());
+    }
   }
 }

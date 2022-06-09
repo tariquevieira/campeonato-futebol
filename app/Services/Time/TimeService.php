@@ -2,6 +2,7 @@
 
 namespace App\Services\Time;
 
+use App\Models\Time;
 use App\Repositories\Time\TimeRepository;
 
 class TimeService
@@ -72,6 +73,16 @@ class TimeService
       throw new \Exception("Não foi possivel deletar o registro");
     } catch (\Exception $e) {
       throw new \Exception($e->getMessage());
+    }
+  }
+
+  public static function todosTimes(): array
+  {
+    try {
+      $times = Time::all(['id'])->toArray();
+      return $times;
+    } catch (\Exception $e) {
+      throw new \Exception("Erro ao buscar todos os times");
     }
   }
 }

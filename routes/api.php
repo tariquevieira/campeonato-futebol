@@ -22,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::apiResource('campeonato', CampeonatoApiController::class);
+
+Route::get('campeonato/{id}/quartas-de-final', [CampeonatoApiController::class, 'quartasDeFinal']);
 Route::apiResource('time', TimeApiController::class);
